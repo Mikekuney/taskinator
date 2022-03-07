@@ -2,8 +2,8 @@ var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 var pageContentEl = document.querySelector("#page-content");
 var taskIdCounter = 0
-var tasksInProgressEl = document.querySelector("tasks-in-progress");
-var tasksCompletedEl = document.querySelector("tasks-completed");
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 var tasks = [];
 var taskFormHandler = function (event) {
     event.preventDefault();
@@ -192,6 +192,20 @@ var taskStatusChangeHandler = function(event) {
 
 var saveTasks = function () {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+var loadTasks = function() {
+    var savedTasks = localStorage.getItem("tasks");
+
+    if (!savedTasks) {
+        return false;
+    }
+
+    savedTasks = JSON.parse(savedTasks);
+
+    for (var i = 0; i < savedTasks.length; i++) {
+        createTaskEl(savedTasks[i]);
+    }
 }
 
 pageContentEl.addEventListener("click", taskButtonHandler)
